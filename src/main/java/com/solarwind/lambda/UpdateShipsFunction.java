@@ -50,6 +50,9 @@ public class UpdateShipsFunction {
           System.out.println("L: " + luminosity + " => D: " + damage);
           if (health > 0) {
             Double decreasedHealth = health - damage;
+            if (decreasedHealth < 0) {
+              decreasedHealth = 0.0;
+            }
             String updateShipSql = "UPDATE ships SET health = ? WHERE id = '" + shipId + "'";
             PreparedStatement updatePreparedStatement = connection.prepareStatement(updateShipSql);
             updatePreparedStatement.setDouble(1, decreasedHealth);

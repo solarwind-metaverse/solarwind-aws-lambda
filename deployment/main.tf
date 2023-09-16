@@ -1,3 +1,7 @@
+data "external" "env" {
+  program = ["${path.module}/env.sh"]
+}
+
 provider "aws" {
   region = "eu-north-1"
 }
@@ -30,9 +34,9 @@ resource "aws_lambda_function" "update_ships_function" {
 
   environment {
     variables = {
-      DB_SERVER = env("DB_SERVER"),
-      DB_USER = env("DB_USER"),
-      DB_PASSWORD = env("DB_PASSWORD")
+      DB_SERVER = data.external.env.result["DB_SERVER"],
+      DB_USER = data.external.env.result["DB_USER"],
+      DB_PASSWORD = data.external.env.result["DB_PASSWORD"]
     }
   }
 
